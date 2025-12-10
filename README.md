@@ -4,7 +4,7 @@ A Kaggle classification project that predicts which passengers survived the sink
 
 Competition link: https://www.kaggle.com/competitions/titanic  
 
-> Lưu ý: EDA và toàn bộ phân tích trực quan nằm trong Notebook. Pipeline xử lý dữ liệu, tạo feature, huấn luyện mô hình và tạo submission đã được tách thành dạng module Python trong thư mục `src/`.
+> Lưu ý: EDA và toàn bộ phân tích trực quan nằm trong Notebook. Pipeline xử lý dữ liệu, tạo feature, huấn luyện mô hình và tạo submission cũng nằm trong Notebook vì đây là lần đầu làm một project nên chưa quen với việc chia nhỏ.
 
 ---
 
@@ -16,16 +16,7 @@ titanic-machine-learning-from-disaster/
 ├── notebook/        # Jupyter Notebook cho EDA
 │   └── titanic-machine-learning-from-disaster.ipynb
 ├── document/        # Tài liệu báo cáo nếu có
-├── src/             # Code pipeline tách riêng thành module
-│   ├── __init__.py
-│   ├── config.py
-│   ├── data.py
-│   ├── features.py
-│   ├── preprocessing.py
-│   ├── modeling.py
-│   ├── training.py
-│   └── main.py
-├── output/          # baseline_results.csv và submission_knn.csv
+├── output/          # submission.csv
 ├── requirements.txt
 └── README.md
 ````
@@ -50,7 +41,7 @@ Quy trình tổng quát:
 3. Xây dựng preprocessing pipeline
 4. Train baseline models và thử PCA
 5. Feature importance và feature selection
-6. Chọn mô hình tốt nhất (KNN tuned)
+6. Chọn mô hình tốt nhất
 7. Sinh file submission
 
 ---
@@ -112,9 +103,9 @@ Kèm bản PCA để so sánh.
 
 Mô hình chọn cuối cùng:
 
-* **KNN với hyperparameter tuning**
-* Accuracy ~ **85.3%**
-* F1-score ~ **0.792**
+* **Gaussian Process với hyperparameter tuning**
+* Accuracy ~ **83.29%**
+* F1-score ~ **77.30%**
 
 ---
 
@@ -133,40 +124,13 @@ Mô hình chọn cuối cùng:
 ## Installation
 
 ```bash
-git clone <your_repo_link>
+git clone <https://github.com/LQB464/titanic-machine-learning-from-disaster>
 cd titanic-machine-learning-from-disaster
 
 python -m venv .venv
 source .venv/bin/activate     # hoặc .venv\Scripts\activate trên Windows
 
 pip install -r requirements.txt
-```
-
----
-
-## Running the Pipeline
-
-Chạy toàn bộ pipeline huấn luyện và tạo submission:
-
-```bash
-python -m src.main
-```
-
-Các tùy chọn:
-
-```bash
-# Chỉ chạy baseline
-python -m src.main --skip-tuning
-
-# Chỉ tuning + train final model
-python -m src.main --skip-baseline
-```
-
-Sau khi chạy, output nằm trong:
-
-```
-output/baseline_results.csv
-output/submission_knn.csv
 ```
 
 ---
@@ -185,20 +149,3 @@ Notebook chứa toàn bộ nội dung:
 * Phân tích survival rate
 * Giải thích feature engineering
 * So sánh mô hình
-
----
-
-## Future Work
-
-* Thêm feature engineering nâng cao
-* Thử LightGBM, CatBoost
-* Dùng Optuna để tuning tự động
-* Sử dụng cross validation toàn diện
-* Thử Voting/Stacking nâng cấp
-
----
-
-## Acknowledgements
-
-* Kaggle Titanic Dataset
-* Open-source Python Data Science Ecosystem
