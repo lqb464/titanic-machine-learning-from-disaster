@@ -4,7 +4,7 @@ A Kaggle classification project that predicts which passengers survived the sink
 
 Competition link: https://www.kaggle.com/competitions/titanic  
 
-> Lưu ý: EDA và toàn bộ phân tích trực quan nằm trong Notebook. Pipeline xử lý dữ liệu, tạo feature, huấn luyện mô hình và tạo submission cũng nằm trong Notebook vì đây là lần đầu làm một project nên chưa quen với việc chia nhỏ.
+> Note: All EDA and visual analysis are contained in the Notebook. The data processing pipeline, feature engineering, model training, and submission generation are also implemented in the Notebook because this is my first full project and I am not yet fully comfortable splitting components into separate modules.
 
 ---
 
@@ -13,9 +13,9 @@ Competition link: https://www.kaggle.com/competitions/titanic
 ```text
 titanic-machine-learning-from-disaster/
 ├── dataset/         # train.csv, test.csv
-├── notebook/        # Jupyter Notebook cho EDA
+├── notebook/        # Jupyter Notebook for EDA
 │   └── titanic-machine-learning-from-disaster.ipynb
-├── document/        # Tài liệu báo cáo nếu có
+├── document/        # Report documents if available
 ├── output/          # submission.csv
 ├── requirements.txt
 └── README.md
@@ -25,53 +25,53 @@ titanic-machine-learning-from-disaster/
 
 ## Problem Description
 
-Mục tiêu của bài toán:
+Problem objective:
 
-> Dự đoán khả năng sống sót của hành khách dựa trên thông tin cá nhân như tuổi, giới tính, hạng vé và nhiều đặc trưng được trích xuất thêm.
+> Predict passenger survival probability based on personal information such as age, gender, ticket class, and additional engineered features.
 
-Dữ liệu bao gồm:
+The dataset includes:
 
-* `train.csv`: có cột mục tiêu `Survived`
-* `test.csv`: không có `Survived`, dùng để dự đoán nộp Kaggle
+* `train.csv`: contains the target column `Survived`
+* `test.csv`: does not contain `Survived`, used to generate Kaggle submissions
 
-Quy trình tổng quát:
+General workflow:
 
-1. EDA trong notebook để hiểu dữ liệu
-2. Feature engineering như Title, FamilySize, Cabin flag, FarePerPassenger
-3. Xây dựng preprocessing pipeline
-4. Train baseline models và thử PCA
-5. Feature importance và feature selection
-6. Chọn mô hình tốt nhất
-7. Sinh file submission
+1. Perform EDA in the notebook to understand the data
+2. Feature engineering such as Title, FamilySize, Cabin flag, FarePerPassenger
+3. Build preprocessing pipeline
+4. Train baseline models and experiment with PCA
+5. Feature importance and feature selection
+6. Select the best model
+7. Generate submission file
 
 ---
 
 ## Approach Summary
 
-### 1. Data validation & EDA (trong notebook)
+### 1. Data validation & EDA (in notebook)
 
-Bao gồm:
+Includes:
 
-* Missing values
-* Data types
-* Correlation với target
-* Phân tích phân phối Age, Fare, Pclass, Sex, Embarked
-* Survival rate theo từng nhóm
+* Missing values analysis
+* Data types checking
+* Correlation with target
+* Distribution analysis of Age, Fare, Pclass, Sex, Embarked
+* Survival rate by group
 
 ### 2. Feature Engineering
 
-Một số feature quan trọng:
+Some important features:
 
-* **Title** từ Name
+* **Title** extracted from Name
 * **FamilySize**, **IsAlone**, **FamilySize_Bucketized**
 * **HasCabin**
 * **FarePerPassenger**, **LogFare**
 
-Các feature này được chuyển thành module trong `src/features.py`.
+These features are implemented as modules in `src/features.py`.
 
 ### 3. Preprocessing Pipeline
 
-Dùng:
+Using:
 
 * `SimpleImputer`
 * `StandardScaler`
@@ -79,11 +79,11 @@ Dùng:
 * `ColumnTransformer`
 * `Pipeline`
 
-Mã trong `src/preprocessing.py`.
+Code located in `src/preprocessing.py`.
 
 ### 4. Baseline Models
 
-Thử nghiệm các mô hình:
+Tested models:
 
 * Logistic Regression
 * Random Forest
@@ -91,19 +91,19 @@ Thử nghiệm các mô hình:
 * XGBoost
 * KNN
 
-Kèm bản PCA để so sánh.
+Including PCA variants for comparison.
 
 ### 5. Feature Selection & Scenarios
 
-* Rút trích feature importance từ RF và XGB
-* So sánh tập feature đầy đủ vs tập rút gọn
-* Đánh giá hai scenario: giữ tất cả feature hoặc giữ 5 feature mạnh nhất
+* Extract feature importance from RF and XGB
+* Compare full feature set vs reduced feature set
+* Evaluate two scenarios: keep all features or keep the top 5 most important features
 
 ### 6. Final Model
 
-Mô hình chọn cuối cùng:
+Final selected model:
 
-* **Gaussian Process với hyperparameter tuning**
+* **Gaussian Process with hyperparameter tuning**
 * Accuracy ~ **83.29%**
 * F1-score ~ **77.30%**
 
@@ -128,7 +128,7 @@ git clone <https://github.com/LQB464/titanic-machine-learning-from-disaster>
 cd titanic-machine-learning-from-disaster
 
 python -m venv .venv
-source .venv/bin/activate     # hoặc .venv\Scripts\activate trên Windows
+source .venv/bin/activate     # or .venv\Scripts\activate on Windows
 
 pip install -r requirements.txt
 ```
@@ -141,11 +141,11 @@ pip install -r requirements.txt
 jupyter notebook notebook/titanic-machine-learning-from-disaster.ipynb
 ```
 
-Notebook chứa toàn bộ nội dung:
+The notebook contains:
 
 * Data validation
 * EDA
-* Biểu đồ trực quan
-* Phân tích survival rate
-* Giải thích feature engineering
-* So sánh mô hình
+* Visualizations
+* Survival rate analysis
+* Feature engineering explanation
+* Model comparison
